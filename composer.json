@@ -1,0 +1,20 @@
+{
+  "name": "ivandanylenko/router",
+  "type": "library",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "IvanDanylenko\\Router\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Ivan Danylenko",
+      "email": "danylenko.ivan11@gmail.com"
+    }
+  ],
+  "minimum-stability": "stable",
+  "require": {
+    "aigletter/contracts": "^1.0"
+  }
+}
