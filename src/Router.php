@@ -30,7 +30,7 @@ class Router implements RouteInterface
         $uri = trim($uri, '/');
         // Split url into segments
         $segments = explode('/', $uri);
-        $controller = $this->controllersNamespace . '\\' . ucfirst($segments[0]);
+        $controller = $this->controllersNamespace . '\\' . ucfirst($segments[0]) . 'Controller';
         $method = $segments[1];
         if (class_exists($controller)) {
             $instance = new $controller();
