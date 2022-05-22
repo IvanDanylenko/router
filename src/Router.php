@@ -4,10 +4,22 @@ namespace IvanDanylenko\Router;
 
 use Aigletter\Contracts\Routing\RouteInterface;
 
+/**
+ * Implementation of application router
+ * @author Ivan Danylenko
+ */
 class Router implements RouteInterface
 {
+    /**
+     * Allows to specify custom routes with their own callbacks
+     * @var array
+     */
     protected $customRoutes = [];
 
+    /**
+     * Namespace added to generated automatically pathes to controllers
+     * @var string
+     */
     protected $controllersNamespace;
 
     public function __construct(string $controllersNamespace)
@@ -16,8 +28,11 @@ class Router implements RouteInterface
     }
 
     /**
-     * @example
-     * $router->route(/page/view);
+     * Method that responsible to invoke specific callback on navigation
+     * @param string
+     * @return callable
+     * @throws Exception
+     * @example $router->route(/page/view);
      */
     public function route(string $uri): callable
     {
@@ -50,6 +65,12 @@ class Router implements RouteInterface
             throw new \Exception('Controller ' . $controller . ' not found');
         }
     }
+
+    /**
+     * Method to add or override route behavior with custom callbacks
+     * @param string $uri
+     * @param callable $callable
+     */
 
     public function addRoute(string $uri, callable $callable)
     {
