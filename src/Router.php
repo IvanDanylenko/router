@@ -33,8 +33,19 @@ class Router implements RouteInterface
         $controller = $this->controllersNamespace . '\\' . ucfirst($segments[0]) . 'Controller';
         $method = $segments[1];
         if (class_exists($controller)) {
+            $arguments = [];
+            $reflection = new \ReflectionMethod($controller, $method);
+            foreach ($reflection->getParameters() as $parameter) {
+                if (isset($_GET[$parameter->name])) {
+                    $arguments[$parameter->name] = $_GET[$parameter->name];
+                } else {
+                    throw new \Exception('Argument ' . $parameter->name . ' not found');
+                }
+            }
             $instance = new $controller();
-            return [$instance, $method];
+            return function () use ($reflection, $instance, $arguments) {
+                $reflection->invokeArgs($instance, $arguments);
+            };
         } else {
             throw new \Exception('Controller ' . $controller . ' not found');
         }

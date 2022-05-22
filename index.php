@@ -1,8 +1,8 @@
 <?php
 
-use IvanDanylenko\Router\RouterFactory;
-
 include 'vendor/autoload.php';
+
+use IvanDanylenko\Router\RouterFactory;
 
 $factory = new RouterFactory(['controllersNamespace' => 'IvanDanylenko\\Router']);
 $router = $factory->createComponent();
