@@ -3,6 +3,10 @@
 namespace IvanDanylenko\Router;
 
 use Aigletter\Contracts\Routing\RouteInterface;
+use Exception;
+use IvanDanylenko\Router\Exceptions\BadRequestException;
+use IvanDanylenko\Router\Exceptions\InvalidArgumentException;
+use IvanDanylenko\Router\Exceptions\NotFoundException;
 
 /**
  * Implementation of application router
@@ -54,15 +58,19 @@ class Router implements RouteInterface
                 if (isset($_GET[$parameter->name])) {
                     $arguments[$parameter->name] = $_GET[$parameter->name];
                 } else {
-                    throw new \Exception('Argument ' . $parameter->name . ' not found');
+                    throw new InvalidArgumentException('Argument ' . $parameter->name . ' not found');
                 }
             }
             $instance = new $controller();
             return function () use ($reflection, $instance, $arguments) {
-                $reflection->invokeArgs($instance, $arguments);
+                try {
+                    $reflection->invokeArgs($instance, $arguments);
+                } catch (Exception $exception) {
+                    throw new BadRequestException();
+                }
             };
         } else {
-            throw new \Exception('Controller ' . $controller . ' not found');
+            throw new NotFoundException('Controller ' . $controller . ' not found');
         }
     }
 
